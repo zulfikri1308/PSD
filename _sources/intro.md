@@ -1,11 +1,30 @@
 # Welcome to your Jupyter Book
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Nama : Zulfikri Assiddiqie
 
-Check out the content pages bundled with this sample book to see more.
+NIM : 230411100034
 
-```{tableofcontents}
-```
+Email : fikri13082005@gmail.com
+
+No HP : 085608183698
+
+Prodi : Teknik Informatika
+
+Univ: Universitas Trunojoyo Madura
+
+Di sini, kutinggalkan catatan kecil,
+bukan sekadar tulisan,
+melainkan jejak yang mungkin kelak berarti.
+
+Bagi diriku di masa depan,
+atau bagi siapa saja
+yang menemukan jalan menuju halaman ini.
+
+Ada tanya?
+Ada rasa ingin berbagi?
+Kirimkan saja ke: fikri13082005@gmail.com.
+
+Perkenalan ini singkat,
+seperti sapa di tepi senja—
+maaf bila ada yang kurang,
+terima kasih karena sudah berlabuh sejenak.

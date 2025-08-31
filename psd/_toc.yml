@@ -4,4 +4,12 @@
 format: jb-book
 root: intro
 chapters:
-- file: notebooks
+
+- file: bisnis
+  title: Bussines Understanding
+
+- file: dataUnderstanding
+  title: Data Understanding
+  sections:
+    - file: explorationData
+      title: Exploration Data  
