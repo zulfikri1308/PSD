@@ -24,3 +24,4 @@ Kirimkan saja ke: fikri13082005@gmail.com.
 Perkenalan ini singkat,
 seperti sapa di tepi senja
 maaf bila ada yang kurang,
+terima kasih karena sudah berlabuh sejenak.
