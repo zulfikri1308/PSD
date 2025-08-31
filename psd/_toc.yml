@@ -5,5 +5,5 @@ format: jb-book
 root: intro
 chapters:
 
-- file: notebooks
-  title: notebooks
+- file: bisnis
+  title: Bussiness Understanding
