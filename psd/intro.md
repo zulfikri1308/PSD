@@ -22,6 +22,5 @@ Ada tanya?
 Ada rasa ingin berbagi?
 Kirimkan saja ke: fikri13082005@gmail.com.
 Perkenalan ini singkat,
-seperti sapa di tepi senja—
+seperti sapa di tepi senja
 maaf bila ada yang kurang,
-terima kasih karena sudah berlabuh sejenak.
