@@ -25,14 +25,42 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-yareuuu
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Konfigurasi koneksi PostgreSQL
+username = "postgres"password = "admin"   
+host = "localhost"         
+port = "5432"              
+database = "postgres"      
+
+# Buat koneksi ke PostgreSQL
+engine = create_engine(f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}")
+
+# Ambil daftar semua tabel di schema public
+tables = pd.read_sql("""
+    SELECT table_name 
+    FROM information_schema.tables 
+    WHERE table_schema = 'public'
+""", engine)
+
+# Dictionary untuk simpan semua tabel sebagai DataFrame
+dataframes = {}
+
+# Loop tiap tabel dan load ke pandas
+for table in tables['table_name']:
+    query = f'SELECT * FROM public."{table}";'
+    dataframes[table] = pd.read_sql(query, engine)
+
+# Contoh akses: tampilkan 5 data teratas dari coffe_sales
+print(dataframes['coffe_sales'].head())
+
 ------------------
 
 
-[31m---------------------------------------------------------------------------[39m
-[31mNameError[39m                                 Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m [43myareuuu[49m
+  [36mCell[39m[36m [39m[32mIn[1][39m[32m, line 5[39m
+[31m    [39m[31musername = "postgres"password = "admin"[39m
+                         ^
+[31mSyntaxError[39m[31m:[39m invalid syntax
 
-[31mNameError[39m: name 'yareuuu' is not defined
 

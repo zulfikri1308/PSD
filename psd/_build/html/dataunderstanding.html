@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Project Science Data</title>
+    <title>Data Understanding &#8212; Project Science Data</title>
   
   
   
@@ -61,7 +61,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="explorationdata.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="bisnis.html" />
+    <link rel="prev" title="Bussiness Understanding" href="bisnis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -175,11 +175,18 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Welcome to your Jupyter Book
+                    My Profile
                 </a>
             </li>
         </ul>
-        
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bisnis.html">Bussiness Understanding</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Understanding</a></li>
+
+
+
+</ul>
+
     </div>
 </nav></div>
     </div>
@@ -363,11 +370,28 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>Data Understanding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipe-data">1. Tipe data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-data">2. Kualitas Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melihat-outlier">Melihat Outlier</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#konsistensi-data">Konsistensi Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value">Missing Value</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -377,25 +401,86 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
+<h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<p>Disini saya menggunakan dataset coffe_sales yang saya dapat dari kaggle dan saya menggunakan postgres dan DBeaver.</p>
+<p>berikut code untuk menghubungkan Powerbi dengan Postgres dengan menggunakan Script Python:</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yareuuu</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="c1"># Konfigurasi koneksi PostgreSQL</span>
+<span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;postgres&quot;</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>   
+<span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>         
+<span class="n">port</span> <span class="o">=</span> <span class="s2">&quot;5432&quot;</span>              
+<span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;postgres&quot;</span>      
+
+<span class="c1"># Buat koneksi ke PostgreSQL</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;postgresql+psycopg2://</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ambil daftar semua tabel di schema public</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT table_name </span>
+<span class="s2">    FROM information_schema.tables </span>
+<span class="s2">    WHERE table_schema = &#39;public&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+<span class="c1"># Dictionary untuk simpan semua tabel sebagai DataFrame</span>
+<span class="n">dataframes</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Loop tiap tabel dan load ke pandas</span>
+<span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">[</span><span class="s1">&#39;table_name&#39;</span><span class="p">]:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SELECT * FROM public.&quot;</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s1">&quot;;&#39;</span>
+    <span class="n">dataframes</span><span class="p">[</span><span class="n">table</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+<span class="c1"># Contoh akses: tampilkan 5 data teratas dari coffe_sales</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataframes</span><span class="p">[</span><span class="s1">&#39;coffe_sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">yareuuu</span>
-
-<span class="ne">NameError</span>: name &#39;yareuuu&#39; is not defined
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;postgres&quot;</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+                         <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="eksplorasi-data">
+<h1>Eksplorasi Data<a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h1>
+<section id="tipe-data">
+<h2>1. Tipe data<a class="headerlink" href="#tipe-data" title="Link to this heading">#</a></h2>
+<p>Pada tampilan awal Power Bi terdapat fitur transform data (ubah data) pada bagian atas.</p>
+<p><img alt="tipedata" src="_images/tipedata.png" /></p>
+</section>
+<section id="kualitas-data">
+<h2>2. Kualitas Data<a class="headerlink" href="#kualitas-data" title="Link to this heading">#</a></h2>
+</section>
+<section id="melihat-outlier">
+<h2>Melihat Outlier<a class="headerlink" href="#melihat-outlier" title="Link to this heading">#</a></h2>
+<p>Untuk melihat outlier di sini menggunakan python visual di power bi dengan memasukkan kode seperti di gambar yaitu melihat data dengan scatterplot.</p>
+<p><img alt="outlier.png" src="_images/outlier.png" /></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="konsistensi-data">
+<h1>Konsistensi Data<a class="headerlink" href="#konsistensi-data" title="Link to this heading">#</a></h1>
+<p>Untuk melihat Konsistensi Data adalah pada fitur transform data dan pada bar view bisa melihat distribusi kolom, kualitas kolom dll.</p>
+<p><img alt="konsistensidata.png" src="_images/konsistensidata.png" /></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="missing-value">
+<h1>Missing Value<a class="headerlink" href="#missing-value" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Valid🟢</p></li>
+<li><p>Error🔴</p></li>
+<li><p>Empty⚫</p></li>
+</ul>
+<p>jika semua 100% maka tidak ada Missing Value</p>
 <div class="toctree-wrapper compound">
 </div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -433,7 +518,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">Bussiness Understanding</p>
       </div>
     </a>
     <a class="right-next"
@@ -451,6 +536,30 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipe-data">1. Tipe data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-data">2. Kualitas Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melihat-outlier">Melihat Outlier</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#konsistensi-data">Konsistensi Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value">Missing Value</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
