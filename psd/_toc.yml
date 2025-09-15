@@ -12,3 +12,9 @@ chapters:
     sections:
       - file: explorationdata
         title: Exploration Data
+  
+  - file: datapreproscessing
+    title: Data Preprocessing
+    sections:
+      - file: outlier
+        title: Outlier
