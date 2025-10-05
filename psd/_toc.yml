@@ -18,6 +18,10 @@ chapters:
     sections:
       - file: outlier
         title: Outlier
+      - file: imbalanced
+        title: Imbalanced Data
+      - file: oversampling
+        title: Over Sampling
 
-  - file: imbalanced 
-    title: imbalanced data (smote)
+  # - file: imbalanced 
+  #   title: imbalanced data (smote)
