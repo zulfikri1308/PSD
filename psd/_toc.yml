@@ -23,5 +23,8 @@ chapters:
       - file: oversampling
         title: Over Sampling
 
+  - file: Projecttimeseries
+    title: Project Time Series
+
   # - file: imbalanced 
   #   title: imbalanced data (smote)
