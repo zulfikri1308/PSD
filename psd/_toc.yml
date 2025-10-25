@@ -23,7 +23,7 @@ chapters:
       - file: oversampling
         title: Over Sampling
 
-  - file: Projecttimeseries
+  - file: project
     title: Project Time Series
 
   # - file: imbalanced 
