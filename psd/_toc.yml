@@ -25,9 +25,10 @@ chapters:
 
   - file: project
     title: Project Time Series
-    sections:
-      - file: autokorelasi
-        title: Project Time Series Autocorelation (Revisi)
+
+
+  - file: autokorelasi
+    title: Project Time Series Autocorelation (Revisi)
 
   # - file: imbalanced 
   #   title: imbalanced data (smote)
