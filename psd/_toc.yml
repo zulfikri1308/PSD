@@ -30,5 +30,8 @@ chapters:
   - file: autokorelasi
     title: Project Time Series Autocorelation (Revisi)
 
+  - file: audiomultilable
+    title: Time Series Audio Multi Label
+
   # - file: imbalanced 
   #   title: imbalanced data (smote)
