@@ -1,0 +1,120 @@
+Traceback (most recent call last):
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\FIKRI\AppData\Local\Programs\Python\Python311\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+from pycaret.time_series import setup, compare_models, create_model, tune_model, predict_model, plot_model
+
+# =================================================================
+# BAGIAN 1: PRA-PEMROSESAN DATA (Mengatasi Masalah Indeks & Missing Value)
+# =================================================================
+# Menggunakan data dari file CSV yang disediakan.
+[cite_start]df = pd.read_csv("no2_interpolated.csv") [cite: 1]
+    
+# 1. Konversi kolom 'Time' ke format datetime
+[cite_start]df['Time'] = pd.to_datetime(df['Time']) [cite: 1]
+df = df.set_index('Time') # Set 'Time' sebagai Index
+    
+# 2. Resampling Harian: Memastikan indeks unik dan mengisi tanggal yang hilang (dengan NaN)
+df = df.resample('D').mean()
+    
+# 3. Memilih kolom target 'NO2'
+y = df['NO2'].copy()
+y.name = 'NO2'
+
+print("✅ Pra-pemrosesan Data Selesai. Data siap untuk PyCaret.")
+
+# =================================================================
+# BAGIAN 2: PYCARET SETUP & INISIALISASI LINGKUNGAN
+# =================================================================
+
+# Inisialisasi Setup PyCaret Time Series
+# fh=30: 30 hari terakhir untuk data uji
+# numeric_imputation_target='linear': Mengisi missing value di kolom NO2 dengan interpolasi linier
+s = setup(
+    data=y,              
+    target='NO2',        
+    session_id=123,
+    fh=30,
+    numeric_imputation_target='linear' 
+) 
+
+print("\n--- PyCaret Setup Selesai ---")
+
+# =================================================================
+# BAGIAN 3: PERBANDINGAN MODEL (Membandingkan SES, DES, TES, dll.)
+# =================================================================
+
+# PyCaret 'ets' akan mencari konfigurasi terbaik (Single, Double, atau Triple Smoothing)
+best_models = compare_models(
+    include=['ets', 'arima', 'theta'], # Fokus perbandingan
+    sort='RMSE', 
+    n_select=3
+)
+    
+print("\n--- Hasil Perbandingan Model (3 Terbaik berdasarkan RMSE) ---")
+print(best_models)
+
+# =================================================================
+# BAGIAN 4: MEMBUAT & TUNING MODEL ETS (Triple Exponential Smoothing)
+# =================================================================
+
+# Membuat model ETS (Triple Exponential Smoothing / Holt-Winters)
+ets_model = create_model('ets')
+
+# Tuning parameter (alpha, beta, gamma) untuk mendapatkan model optimal
+tuned_ets = tune_model(ets_model, n_iter=5) 
+    
+print("\n--- Model ETS (Triple Smoothing) Optimal Ditemukan ---")
+print("Parameter Optimal (alpha, beta, gamma):")
+print(tuned_ets.get_params())
+
+# =================================================================
+# BAGIAN 5: VISUALISASI DAN PERAMALAN AKHIR
+# =================================================================
+
+# 1. Visualisasi peramalan pada data uji # Garis biru (aktual), Garis hijau (ramalan pada data uji)
+plot_model(tuned_ets, plot='forecast', save=True) 
+
+# 2. Visualisasi komponen (Tren, Musiman, Sisa) plot_model(tuned_ets, plot='decomp', save=True)
+
+# 3. Meramalkan NO2 untuk hari keesokan harinya (fh=1)
+forecast_next_day = predict_model(tuned_ets, fh=1)
+    
+print("\n--- Ramalan Kadar NO2 untuk Hari Berikutnya (fh=1) ---")
+print(forecast_next_day)
+
+# Simpan hasil ramalan ke file
+forecast_next_day.to_csv("ramalan_no2_harian_final.csv")
+------------------
+
+
+  [36mCell[39m[36m [39m[32mIn[1][39m[32m, line 8[39m
+[31m    [39m[31m[cite_start]df = pd.read_csv("no2_interpolated.csv") [cite: 1][39m
+                ^
+[31mSyntaxError[39m[31m:[39m invalid syntax
+
+

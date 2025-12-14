@@ -1,0 +1,1253 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Klasifikasi Profil Beban Listrik Harian (Italy Power Demand) Menggunakan Random Forest &#8212; Project Science Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'projectuastimeseries';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Time Series Analisis Audio Multilable" href="audiomultilable.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/me.jpg" class="logo__image only-light" alt="Project Science Data - Home"/>
+    <script>document.write(`<img src="_static/me.jpg" class="logo__image only-dark" alt="Project Science Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    My Profile
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bisnis.html">Bussiness Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataunderstanding.html">Data Understanding</a></li>
+
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="datapreproscessing.html">Data Preprocessing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="outlier.html">Data Preproscessing</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="imbalanced.html">Imbalanced Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oversampling.html">Over Sampling</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">Project Time Series Using No2</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="autokorelasi.html">Time Series Forecasting With Feature Selection (Revisi)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="audiomultilable.html">Time Series Audio Multi Label</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Project UAS (Italy Power Demand)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprojectuastimeseries.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/projectuastimeseries.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Klasifikasi Profil Beban Listrik Harian (Italy Power Demand) Menggunakan Random Forest</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-business-understanding-pemahaman-masalah"><strong>I. Business Understanding (Pemahaman Masalah)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang"><strong>1. Latar Belakang</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek"><strong>2. Tujuan Proyek</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-eda"><strong>2. Eksplorasi Data (EDA)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-missing-value">Pengecekan Missing Value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation"><strong>Data Preparation</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategi-pembagian-data-merge-resplit-strategy"><strong>1. Strategi Pembagian Data (Merge &amp; Resplit Strategy)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-keseimbangan-kelas"><strong>2. Pengecekan Keseimbangan Kelas</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-model"><strong>Konfigurasi Model:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi">Evaluasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrik-yang-digunakan"><strong>Metrik yang Digunakan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-analisis"><strong>Hasil Analisis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-model">Simpan Model</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-profil-beban-listrik-harian-italy-power-demand-menggunakan-random-forest">
+<h1><strong>Klasifikasi Profil Beban Listrik Harian (Italy Power Demand) Menggunakan Random Forest</strong><a class="headerlink" href="#klasifikasi-profil-beban-listrik-harian-italy-power-demand-menggunakan-random-forest" title="Link to this heading">#</a></h1>
+<section id="i-business-understanding-pemahaman-masalah">
+<h2><strong>I. Business Understanding (Pemahaman Masalah)</strong><a class="headerlink" href="#i-business-understanding-pemahaman-masalah" title="Link to this heading">#</a></h2>
+<section id="latar-belakang">
+<h3><strong>1. Latar Belakang</strong><a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h3>
+<p>Profil beban listrik harian (<em>daily load profile</em>) mencerminkan kebiasaan konsumsi energi suatu populasi. Di negara dengan empat musim seperti Italia, pola konsumsi listrik berubah drastis tergantung musim.</p>
+<ul class="simple">
+<li><p><strong>Musim Dingin (Winter):</strong> Permintaan listrik biasanya memiliki dua puncak (<em>double peak</em>) di pagi dan sore hari karena penggunaan pemanas ruangan dan lampu.</p></li>
+<li><p><strong>Musim Panas (Summer):</strong> Permintaan cenderung lebih landai atau memuncak di siang hari karena penggunaan pendingin ruangan (AC).</p></li>
+</ul>
+</section>
+<section id="tujuan-proyek">
+<h3><strong>2. Tujuan Proyek</strong><a class="headerlink" href="#tujuan-proyek" title="Link to this heading">#</a></h3>
+<p>Membangun model <em>Machine Learning</em> yang dapat secara otomatis mengklasifikasikan apakah data rekaman sensor listrik selama 24 jam terjadi pada <strong>Musim Dingin</strong> atau <strong>Musim Panas</strong>. Hal ini berguna untuk manajemen distribusi energi yang efisien.</p>
+</section>
+</section>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import Library Penting</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+
+<span class="c1"># Konfigurasi visualisasi</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Library berhasil di-import!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Library berhasil di-import!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-understanding">
+<h2>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h2>
+<p><strong>1. Sumber &amp; Asal-Usul Data</strong>
+Dataset yang digunakan adalah <strong>ItalyPowerDemand</strong>, yang merupakan standar <em>benchmark</em> dari <em>UCR Time Series Classification Archive</em>.</p>
+<p><strong>Kronologi Pengambilan &amp; Pemrosesan Data (Data Acquisition Pipeline):</strong>
+Berdasarkan referensi paper <em>Keogh et al. (2005)</em> dan dokumentasi UCR, berikut adalah proses bagaimana angka-angka dalam dataset ini didapatkan:</p>
+<ol class="arabic simple">
+<li><p><strong>Perekaman Data Mentah (Raw Sensing):</strong></p>
+<ul class="simple">
+<li><p>Data direkam oleh sensor <em>Smart Meter</em> pada gardu listrik di <strong>Italia</strong> sepanjang tahun <strong>1997</strong>.</p></li>
+<li><p>Data aslinya berupa deret waktu kontinu (<em>continuous time series</em>) beban daya (Watt) setiap jam selama 12 bulan (Januari - Desember).</p></li>
+</ul>
+</li>
+<li><p><strong>Segmentasi (Segmentation):</strong></p>
+<ul class="simple">
+<li><p>Data tahunan tersebut dipotong-potong menjadi <strong>segmen harian</strong>.</p></li>
+<li><p>Setiap baris data mewakili 1 hari, yang terdiri dari <strong>24 titik data</strong> (Jam 00:00 s.d. 23:00). Inilah mengapa dataset ini memiliki 24 fitur.</p></li>
+</ul>
+</li>
+<li><p><strong>Pelabelan (Class Labeling):</strong></p>
+<ul class="simple">
+<li><p><strong>Kelas 1 (Winter):</strong> Hari-hari dari bulan Oktober hingga Maret.</p></li>
+<li><p><strong>Kelas 2 (Summer):</strong> Hari-hari dari bulan April hingga September.</p></li>
+</ul>
+</li>
+<li><p><strong>Z-Normalization (Standarisasi):</strong></p>
+<ul class="simple">
+<li><p>Ini adalah tahap krusial. Data asli (Watt) dikonversi menggunakan rumus Z-Score:
+$<span class="math notranslate nohighlight">\(x' = \frac{x - \mu}{\sigma}\)</span>$</p></li>
+<li><p><strong>Tujuannya:</strong> Agar model fokus pada <strong>Bentuk Pola (Shape)</strong> grafik, bukan besaran Watt-nya. Angka negatif (misal -1.5) berarti beban listrik saat itu <em>di bawah rata-rata harian</em>, dan positif berarti <em>di atas rata-rata</em>.</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membaca file .txt (dipisahkan spasi)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Header=None karena file asli tidak punya nama kolom</span>
+    <span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ItalyPowerDemand_TRAIN.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ItalyPowerDemand_TEST.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Data berhasil dimuat!&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ ERROR: File tidak ditemukan. Mohon upload file .txt ke Colab dulu.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan informasi dasar</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape Data Train: </span><span class="si">{</span><span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> (Baris, Kolom)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape Data Test : </span><span class="si">{</span><span class="n">df_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> (Baris, Kolom)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Contoh 5 baris data pertama:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+
+<span class="c1"># Visualisasi EDA: Perbandingan Pola Rata-rata Kelas 1 vs Kelas 2</span>
+<span class="c1"># Kolom 0 = Label, Kolom 1-24 = Fitur Time Series</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span> <span class="c1"># Mengambil jenis kelas (1 dan 2)</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+    <span class="c1"># Ambil data milik kelas c, buang kolom label (iloc[:, 1:])</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="n">df_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="c1"># Hitung rata-rata per jam</span>
+    <span class="n">mean_pattern</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Plotting</span>
+    <span class="n">label_name</span> <span class="o">=</span> <span class="s2">&quot;Musim Dingin (Okt-Mar)&quot;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Musim Panas (Apr-Sept)&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">mean_pattern</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Kelas </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">label_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbedaan Pola Konsumsi Listrik: Musim Dingin vs Panas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Jam (1-24)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Daya Listrik (Normalized)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;💡 Insight: Terlihat perbedaan pola beban listrik di jam-jam tertentu antar kedua musim.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Data berhasil dimuat!
+Shape Data Train: (67, 25) (Baris, Kolom)
+Shape Data Test : (1029, 25) (Baris, Kolom)
+
+Contoh 5 baris data pertama:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>15</th>
+      <th>16</th>
+      <th>17</th>
+      <th>18</th>
+      <th>19</th>
+      <th>20</th>
+      <th>21</th>
+      <th>22</th>
+      <th>23</th>
+      <th>24</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>-0.710518</td>
+      <td>-1.183320</td>
+      <td>-1.372442</td>
+      <td>-1.593083</td>
+      <td>-1.467002</td>
+      <td>-1.372442</td>
+      <td>-1.088760</td>
+      <td>0.045967</td>
+      <td>0.928532</td>
+      <td>...</td>
+      <td>-0.647477</td>
+      <td>-0.269235</td>
+      <td>-0.206195</td>
+      <td>0.613330</td>
+      <td>1.369815</td>
+      <td>1.464375</td>
+      <td>1.054613</td>
+      <td>0.581810</td>
+      <td>0.172048</td>
+      <td>-0.269235</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>-0.993009</td>
+      <td>-1.426786</td>
+      <td>-1.579884</td>
+      <td>-1.605401</td>
+      <td>-1.630917</td>
+      <td>-1.375754</td>
+      <td>-1.018526</td>
+      <td>-0.355102</td>
+      <td>0.716583</td>
+      <td>...</td>
+      <td>0.486936</td>
+      <td>0.563485</td>
+      <td>0.614518</td>
+      <td>0.308322</td>
+      <td>0.257289</td>
+      <td>1.099327</td>
+      <td>1.048295</td>
+      <td>0.691066</td>
+      <td>-0.048906</td>
+      <td>-0.380618</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.0</td>
+      <td>1.319067</td>
+      <td>0.569774</td>
+      <td>0.195128</td>
+      <td>-0.085856</td>
+      <td>-0.179518</td>
+      <td>-0.273180</td>
+      <td>-0.085856</td>
+      <td>-1.397118</td>
+      <td>-1.116134</td>
+      <td>...</td>
+      <td>-0.554164</td>
+      <td>-0.741487</td>
+      <td>-0.741487</td>
+      <td>-0.741487</td>
+      <td>-1.116134</td>
+      <td>-0.460503</td>
+      <td>0.476113</td>
+      <td>2.349344</td>
+      <td>2.255682</td>
+      <td>1.600052</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.0</td>
+      <td>-0.812444</td>
+      <td>-1.157553</td>
+      <td>-1.416385</td>
+      <td>-1.531421</td>
+      <td>-1.502662</td>
+      <td>-1.416385</td>
+      <td>-1.646458</td>
+      <td>-0.467335</td>
+      <td>0.654269</td>
+      <td>...</td>
+      <td>0.740547</td>
+      <td>0.884342</td>
+      <td>0.884342</td>
+      <td>0.683028</td>
+      <td>0.625510</td>
+      <td>0.424197</td>
+      <td>-0.007190</td>
+      <td>-0.035949</td>
+      <td>0.107847</td>
+      <td>-0.266022</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>-0.972840</td>
+      <td>-1.390518</td>
+      <td>-1.536705</td>
+      <td>-1.620240</td>
+      <td>-1.620240</td>
+      <td>-1.453169</td>
+      <td>-0.993724</td>
+      <td>0.050469</td>
+      <td>0.635218</td>
+      <td>...</td>
+      <td>0.321960</td>
+      <td>0.489031</td>
+      <td>0.614334</td>
+      <td>1.303502</td>
+      <td>1.240850</td>
+      <td>1.073779</td>
+      <td>0.551682</td>
+      <td>0.426379</td>
+      <td>-0.179253</td>
+      <td>-0.638698</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 25 columns</p>
+</div></div><img alt="_images/f79d0c82b0ee810bb7d7fd77a3711c46e88badb47c860c2ecb3d1ee2c21b9353.png" src="_images/f79d0c82b0ee810bb7d7fd77a3711c46e88badb47c860c2ecb3d1ee2c21b9353.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>💡 Insight: Terlihat perbedaan pola beban listrik di jam-jam tertentu antar kedua musim.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="eksplorasi-data-eda">
+<h3><strong>2. Eksplorasi Data (EDA)</strong><a class="headerlink" href="#eksplorasi-data-eda" title="Link to this heading">#</a></h3>
+<p>Berdasarkan visualisasi grafik rata-rata (<em>mean profile</em>) pada dataset:</p>
+<ul class="simple">
+<li><p><strong>Pola Kelas 1 (Winter):</strong> Terlihat lonjakan tajam di pagi dan sore hari (pemanas/lampu).</p></li>
+<li><p><strong>Pola Kelas 2 (Summer):</strong> Pola lebih datar atau memuncak di siang hari.</p></li>
+</ul>
+</section>
+<section id="pengecekan-missing-value">
+<h3>Pengecekan Missing Value<a class="headerlink" href="#pengecekan-missing-value" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔍 Pengecekan Missing Values:&quot;</span><span class="p">)</span>
+<span class="n">missing_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">missing_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Jumlah Missing Value di Train : </span><span class="si">{</span><span class="n">missing_train</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Jumlah Missing Value di Test  : </span><span class="si">{</span><span class="n">missing_test</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+<span class="k">if</span> <span class="n">missing_train</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">missing_test</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   ✅ Status: Dataset BERSIH (Tidak perlu imputasi).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   ⚠️ Status: Ditemukan data kosong! Perlu penanganan.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔍 Pengecekan Missing Values:
+   - Jumlah Missing Value di Train : 0
+   - Jumlah Missing Value di Test  : 0
+   ✅ Status: Dataset BERSIH (Tidak perlu imputasi).
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-preparation">
+<h2><strong>Data Preparation</strong><a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h2>
+<section id="strategi-pembagian-data-merge-resplit-strategy">
+<h3><strong>1. Strategi Pembagian Data (Merge &amp; Resplit Strategy)</strong><a class="headerlink" href="#strategi-pembagian-data-merge-resplit-strategy" title="Link to this heading">#</a></h3>
+<p>Dataset asli memiliki pembagian bawaan yang sangat tidak seimbang untuk keperluan pelatihan model standar, yaitu hanya 67 data latih (<em>Train</em>) dan 1029 data uji (<em>Test</em>).</p>
+<p>Untuk mengatasi risiko <em>underfitting</em> (model kurang belajar) dan memenuhi standar metodologi <em>Data Science</em> yang baik, proyek ini menerapkan strategi <strong>Merge &amp; Resplit</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Penggabungan (Merging):</strong> Menggabungkan dataset Train asli dan Test asli menjadi satu dataset besar (Total 1096 sampel).</p></li>
+<li><p><strong>Pembagian Ulang (Resplitting 80:20):</strong> Dataset gabungan tersebut diacak dan dibagi ulang menggunakan teknik <strong>Stratified Shuffle Split</strong> dengan rasio:</p>
+<ul class="simple">
+<li><p><strong>80% Data Training (876 sampel):</strong> Digunakan untuk melatih model agar mengenali pola dengan lebih baik.</p></li>
+<li><p><strong>20% Data Testing (220 sampel):</strong> Disisihkan murni untuk pengujian akhir.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Alasan Strategi Ini:</strong>
+Rasio 80:20 memberikan jumlah data latih yang jauh lebih memadai bagi algoritma Random Forest untuk membangun pohon keputusan yang <em>robust</em> dan akurat, dibandingkan hanya menggunakan 67 data asli.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; [TAHAP 1 &amp; 2] LOAD, MERGE, RESPLIT, &amp; SAVE NEW DATASETS&quot;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># 1. BACA DATA ASLI (ORIGINAL)</span>
+    <span class="n">df_train_orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ItalyPowerDemand_TRAIN.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">df_test_orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ItalyPowerDemand_TEST.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset Asli Loaded -&gt; Train: </span><span class="si">{</span><span class="n">df_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Test: </span><span class="si">{</span><span class="n">df_test_orig</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 2. GABUNGKAN MENJADI SATU (MERGE)</span>
+    <span class="n">df_total</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_train_orig</span><span class="p">,</span> <span class="n">df_test_orig</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Pisahkan Fitur (X) dan Label (y)</span>
+    <span class="n">X_total</span> <span class="o">=</span> <span class="n">df_total</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">y_total</span> <span class="o">=</span> <span class="n">df_total</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Total Data Digabung: </span><span class="si">{</span><span class="n">df_total</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> baris&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 3. BAGI ULANG 80:20 (RESPLIT)</span>
+    <span class="c1"># Gunakan stratify agar perbandingan Winter/Summer tetap seimbang</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X_total</span><span class="p">,</span> <span class="n">y_total</span><span class="p">,</span> 
+        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>      <span class="c1"># 20% Data Uji (Sekitar 220 data)</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> 
+        <span class="n">stratify</span><span class="o">=</span><span class="n">y_total</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- HASIL SPLIT BARU (80:20) ---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Training : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="si">}</span><span class="s2"> sampel&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Testing  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="si">}</span><span class="s2"> sampel&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 4. SIMPAN DATASET BARU KE FILE .TXT (SAVE)</span>
+    <span class="c1"># Kita perlu menggabungkan kembali X dan y agar formatnya sama seperti file asli</span>
+    <span class="c1"># Format: Kolom pertama = Label, Kolom berikutnya = Fitur</span>
+    
+    <span class="c1"># Buat DataFrame untuk Train Baru</span>
+    <span class="n">df_train_new</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">df_train_new</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> <span class="c1"># Sisipkan label di kolom pertama</span>
+    
+    <span class="c1"># Buat DataFrame untuk Test Baru</span>
+    <span class="n">df_test_new</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">df_test_new</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>   <span class="c1"># Sisipkan label di kolom pertama</span>
+    
+    <span class="c1"># Simpan ke file txt (separator spasi, tanpa header, tanpa index)</span>
+    <span class="n">train_filename</span> <span class="o">=</span> <span class="s1">&#39;ItalyPowerDemand_TRAIN_8020.txt&#39;</span>
+    <span class="n">test_filename</span> <span class="o">=</span> <span class="s1">&#39;ItalyPowerDemand_TEST_8020.txt&#39;</span>
+    
+    <span class="n">df_train_new</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">train_filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_test_new</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">test_filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">💾 Dataset Baru Berhasil Disimpan!&quot;</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ ERROR: File dataset asli tidak ditemukan. Mohon upload file .txt ke Colab.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [TAHAP 1 &amp; 2] LOAD, MERGE, RESPLIT, &amp; SAVE NEW DATASETS
+Dataset Asli Loaded -&gt; Train: (67, 25), Test: (1029, 25)
+✅ Total Data Digabung: 1096 baris
+
+--- HASIL SPLIT BARU (80:20) ---
+Data Training : 876 sampel
+Data Testing  : 220 sampel
+
+💾 Dataset Baru Berhasil Disimpan!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pengecekan-keseimbangan-kelas">
+<h3><strong>2. Pengecekan Keseimbangan Kelas</strong><a class="headerlink" href="#pengecekan-keseimbangan-kelas" title="Link to this heading">#</a></h3>
+<p>Setelah proses <em>resplit</em>, distribusi kelas dipastikan tetap seimbang (<em>balanced</em>) berkat penggunaan parameter <code class="docutils literal notranslate"><span class="pre">stratify</span></code>.</p>
+<ul class="simple">
+<li><p>Proporsi Kelas 1 (Winter) dan Kelas 2 (Summer) terjaga di kisaran <strong>50:50</strong>.</p></li>
+<li><p>Oleh karena itu, teknik penanganan <em>imbalanced data</em> (seperti SMOTE) <strong>TIDAK DIPERLUKAN</strong>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === VISUALISASI 1: CEK KESEIMBANGAN KELAS (TRAIN VS TEST) ===</span>
+
+<span class="c1"># 1. Siapkan Data untuk Plotting</span>
+<span class="c1"># Menggabungkan label train dan test ke dalam satu DataFrame agar mudah di-plot</span>
+<span class="n">df_visual</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">]),</span>
+    <span class="s1">&#39;Dataset&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Train (80%)&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Test (20%)&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1"># 2. Buat Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Dataset&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_visual</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+
+<span class="c1"># 3. Percantik Grafik</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi Kelas: Data Training vs Data Testing&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kelas Musim&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah Sampel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Musim Dingin (1)&#39;</span><span class="p">,</span> <span class="s1">&#39;Musim Panas (2)&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Jenis Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># 4. Tambahkan Angka di Atas Batang</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()),</span> 
+                <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> 
+                <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> 
+                <span class="n">textcoords</span> <span class="o">=</span> <span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 5. Tampilkan Statistik Angka</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Detail Distribusi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Train -&gt; Winter: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">y_train</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">, Summer: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">y_train</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Test  -&gt; Winter: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">y_test</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">, Summer: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">y_test</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;💡 Insight: Proporsi kelas terjaga seimbang di kedua dataset (Stratified Split Berhasil).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9fec3887acab4aecc1666f9059b8f7240b2926290da855e982233b3d532ecdf7.png" src="_images/9fec3887acab4aecc1666f9059b8f7240b2926290da855e982233b3d532ecdf7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Detail Distribusi:
+Data Train -&gt; Winter: 437, Summer: 439
+Data Test  -&gt; Winter: 110, Summer: 110
+💡 Insight: Proporsi kelas terjaga seimbang di kedua dataset (Stratified Split Berhasil).
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === VISUALISASI 2: POLA RATA-RATA (MEAN PROFILE) ===</span>
+<span class="c1"># Kita gunakan DataFrame sementara untuk memudahkan plotting</span>
+<span class="n">df_temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">df_temp</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">df_temp</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
+    <span class="c1"># Ambil rata-rata per jam untuk setiap kelas</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df_temp</span><span class="p">[</span><span class="n">df_temp</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Buang kolom Label</span>
+    <span class="n">mean_pattern</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="n">label_name</span> <span class="o">=</span> <span class="s2">&quot;Musim Dingin (Okt-Mar)&quot;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Musim Panas (Apr-Sept)&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">mean_pattern</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Kelas </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">label_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbedaan Pola Konsumsi Listrik: Musim Dingin vs Panas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Jam (1-24)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Daya Listrik (Normalized)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;💡 Insight: Terlihat perbedaan pola beban listrik di jam-jam tertentu (pagi &amp; sore).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/93362aa5f40b49cc7d8e2d4e75508b75804c74171f9517df0f9419c4ad44938f.png" src="_images/93362aa5f40b49cc7d8e2d4e75508b75804c74171f9517df0f9419c4ad44938f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>💡 Insight: Terlihat perbedaan pola beban listrik di jam-jam tertentu (pagi &amp; sore).
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modelling">
+<h2>Modelling<a class="headerlink" href="#modelling" title="Link to this heading">#</a></h2>
+<p>Algoritma yang digunakan adalah <strong>Random Forest Classifier</strong>.</p>
+<section id="konfigurasi-model">
+<h3><strong>Konfigurasi Model:</strong><a class="headerlink" href="#konfigurasi-model" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Algoritma:</strong> Ensemble Learning (Bagging).</p></li>
+<li><p><strong>n_estimators = 100:</strong> Membangun 100 pohon keputusan (<em>decision trees</em>) yang bekerja secara paralel.</p></li>
+<li><p><strong>random_state = 42:</strong> Untuk memastikan hasil eksperimen dapat direproduksi (<em>reproducible</em>) dan konsisten.</p></li>
+</ul>
+<p><strong>Cara Kerja pada Kasus Ini:</strong>
+Random Forest akan mengambil “suara terbanyak” (<em>voting</em>) dari 100 pohon. Setiap pohon mempelajari pola kenaikan/penurunan listrik pada jam-jam tertentu (misalnya: “Jika jam 19:00 beban tinggi, kemungkinan Winter”).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; [TAHAP 3] MODELING&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi Model Random Forest</span>
+<span class="c1"># n_estimators=100: Membangun 100 pohon keputusan</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Melatih Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sedang melatih model...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Selesai! ✅</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [TAHAP 3] MODELING
+Sedang melatih model...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Selesai! ✅
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluasi">
+<h2>Evaluasi<a class="headerlink" href="#evaluasi" title="Link to this heading">#</a></h2>
+<p>Model dievaluasi menggunakan 80:20</p>
+<section id="metrik-yang-digunakan">
+<h3><strong>Metrik yang Digunakan:</strong><a class="headerlink" href="#metrik-yang-digunakan" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Akurasi:</strong> Mengukur persentase ketepatan prediksi secara global.</p></li>
+<li><p><strong>Confusion Matrix:</strong> Melihat detail kesalahan (misal: Berapa kali Winter salah diprediksi sebagai Summer).</p></li>
+<li><p><strong>Classification Report:</strong> Meninjau <em>Precision, Recall,</em> dan <em>F1-Score</em> untuk memastikan tidak ada bias pada salah satu musim.</p></li>
+</ol>
+</section>
+<section id="hasil-analisis">
+<h3><strong>Hasil Analisis:</strong><a class="headerlink" href="#hasil-analisis" title="Link to this heading">#</a></h3>
+<p>Hasil evaluasi menunjukkan akurasi yang sangat tinggi (&gt;90%). Ini mengonfirmasi bahwa meskipun dilatih dengan sedikit data (67 sampel), pola “Double Peak” pada Winter dan pola landai pada Summer sangat konsisten dan mudah dikenali oleh Random Forest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; [TAHAP 4] EVALUASI MODEL&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prediksi data test</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Hitung Akurasi</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🎯 AKURASI MODEL: </span><span class="si">{</span><span class="n">acc</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan Confusion Matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> 
+            <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Prediksi: Dingin&#39;</span><span class="p">,</span> <span class="s1">&#39;Prediksi: Panas&#39;</span><span class="p">],</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Aktual: Dingin&#39;</span><span class="p">,</span> <span class="s1">&#39;Aktual: Panas&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Label Sebenarnya&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Hasil Prediksi Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Classification Report Detail</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Laporan Klasifikasi Detail:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Musim Dingin&#39;</span><span class="p">,</span> <span class="s1">&#39;Musim Panas&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [TAHAP 4] EVALUASI MODEL
+🎯 AKURASI MODEL: 98.64%
+</pre></div>
+</div>
+<img alt="_images/58325c79537cd431545622654d9c2b3c9f0ca083aa66a71922ad96c034a4ad27.png" src="_images/58325c79537cd431545622654d9c2b3c9f0ca083aa66a71922ad96c034a4ad27.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Laporan Klasifikasi Detail:
+              precision    recall  f1-score   support
+
+Musim Dingin       0.99      0.98      0.99       110
+ Musim Panas       0.98      0.99      0.99       110
+
+    accuracy                           0.99       220
+   macro avg       0.99      0.99      0.99       220
+weighted avg       0.99      0.99      0.99       220
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === TAMBAHAN: JAM BERAPA YANG PALING KRUSIAL? ===</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Urutkan dari yang terbesar</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Feature Importance: Jam Berapa yang Paling Membedakan Musim?&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">importances</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;teal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Jam </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span> <span class="c1"># Jam 0-23</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Tingkat Kepentingan (Importance)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">top_jam</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;💡 Insight: Jam </span><span class="si">{</span><span class="n">top_jam</span><span class="si">}</span><span class="s2"> (00:00 - 23:00) adalah waktu paling krusial untuk membedakan Winter vs Summer.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6cb18ff91d49f5d7cdd2307d9287b71359e98d6d8901bb3d6b68f5b05bc7a92c.png" src="_images/6cb18ff91d49f5d7cdd2307d9287b71359e98d6d8901bb3d6b68f5b05bc7a92c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>💡 Insight: Jam 19 (00:00 - 23:00) adalah waktu paling krusial untuk membedakan Winter vs Summer.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="simpan-model">
+<h2>Simpan Model<a class="headerlink" href="#simpan-model" title="Link to this heading">#</a></h2>
+<p>Model yang telah dilatih dan dievaluasi kemudian disimpan (<em>export</em>) ke dalam format file <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> (Pickle).</p>
+<ul class="simple">
+<li><p><strong>Tujuan:</strong> File model ini akan diintegrasikan ke dalam aplikasi berbasis web (<strong>Streamlit</strong>) agar pengguna dapat mengunggah data profil listrik baru dan mendapatkan prediksi musim secara <em>real-time</em>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; [TAHAP 5] SAVE MODEL&quot;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;model_italy_power.pkl&#39;</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;💾 Model berhasil disimpan dengan nama: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Siap didownload dan digunakan di Streamlit!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [TAHAP 5] SAVE MODEL
+💾 Model berhasil disimpan dengan nama: model_italy_power.pkl
+Siap didownload dan digunakan di Streamlit!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="audiomultilable.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Time Series Analisis Audio Multilable</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-business-understanding-pemahaman-masalah"><strong>I. Business Understanding (Pemahaman Masalah)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang"><strong>1. Latar Belakang</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek"><strong>2. Tujuan Proyek</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-eda"><strong>2. Eksplorasi Data (EDA)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-missing-value">Pengecekan Missing Value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation"><strong>Data Preparation</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategi-pembagian-data-merge-resplit-strategy"><strong>1. Strategi Pembagian Data (Merge &amp; Resplit Strategy)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-keseimbangan-kelas"><strong>2. Pengecekan Keseimbangan Kelas</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-model"><strong>Konfigurasi Model:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi">Evaluasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrik-yang-digunakan"><strong>Metrik yang Digunakan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-analisis"><strong>Hasil Analisis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-model">Simpan Model</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Zulfikri Assiddiqie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
