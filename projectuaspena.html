@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Proyek Akhir Sains Data: Klasifikasi Digit Tulisan Tangan (PenDigits) &#8212; Project Science Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'projectuaspena';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Klasifikasi Profil Beban Listrik Harian (Italy Power Demand) Menggunakan Random Forest" href="projectuastimeseries.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/me.jpg" class="logo__image only-light" alt="Project Science Data - Home"/>
+    <script>document.write(`<img src="_static/me.jpg" class="logo__image only-dark" alt="Project Science Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    My Profile
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bisnis.html">Bussiness Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataunderstanding.html">Data Understanding</a></li>
+
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="datapreproscessing.html">Data Preprocessing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="outlier.html">Data Preproscessing</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="imbalanced.html">Imbalanced Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oversampling.html">Over Sampling</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">Project Time Series Using No2</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="autokorelasi.html">Time Series Forecasting With Feature Selection (Revisi)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="audiomultilable.html">Time Series Audio Multi Label</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectuastimeseries.html">Project 1 UAS (Italy Power Demand)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Project 2 UAS (Pen-Digits)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprojectuaspena.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/projectuaspena.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Proyek Akhir Sains Data: Klasifikasi Digit Tulisan Tangan (PenDigits)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#business-understanding">1. Business Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">3. Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling">4. Modeling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">5. Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment">6. Deployment</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="proyek-akhir-sains-data-klasifikasi-digit-tulisan-tangan-pendigits">
+<h1>Proyek Akhir Sains Data: Klasifikasi Digit Tulisan Tangan (PenDigits)<a class="headerlink" href="#proyek-akhir-sains-data-klasifikasi-digit-tulisan-tangan-pendigits" title="Link to this heading">#</a></h1>
+<section id="business-understanding">
+<h2>1. Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Latar Belakang Masalah:</strong>
+Pengenalan tulisan tangan (<em>Handwritten Digit Recognition</em>) menjadi fitur krusial dalam digitalisasi dokumen dan antarmuka perangkat layar sentuh. Tantangan utamanya adalah variasi gaya penulisan (<em>stroke</em>) antar individu yang berbeda-beda, sehingga diperlukan model yang mampu mengenali pola gerakan pena secara akurat.</p></li>
+<li><p><strong>Tujuan Proyek:</strong></p>
+<ol class="arabic simple">
+<li><p>Membangun model klasifikasi yang mampu memprediksi angka (0-9) berdasarkan data urutan koordinat (Time Series) dengan akurasi tinggi.</p></li>
+<li><p>Mengembangkan <em>prototype</em> aplikasi berbasis web di mana pengguna dapat menulis angka pada layar dan sistem memprediksinya secara <em>real-time</em>.</p></li>
+</ol>
+</li>
+<li><p><strong>Metrik Keberhasilan:</strong></p>
+<ul>
+<li><p><strong>Teknis:</strong> Akurasi model &gt; 95% pada data uji.</p></li>
+<li><p><strong>Bisnis:</strong> Aplikasi dapat menangkap input coretan user, mengonversinya menjadi 8 titik sampel, dan memprediksi angka dengan benar.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="data-understanding">
+<h2>2. Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Sumber Data &amp; Referensi:</strong></p>
+<ul>
+<li><p>Dataset: <strong>PenDigits</strong> (Pen-Based Recognition of Handwritten Digits).</p></li>
+<li><p>Paper Asli: <em>F. Alimoglu &amp; E. Alpaydin (1996). Combining Multiple Representations and Classifiers for Pen-Based Handwritten Digit Recognition.</em></p></li>
+<li><p>Terdapat 10 kelas yaitu angka 0 sampai 9</p></li>
+<li><p>Terdapat 2 fitur yaitu dimensi 0 dan dimensi 1, dimensi 0 adalah kordinat sumbu x dan dimensi 1 adalah kordinat sumbu y</p></li>
+</ul>
+</li>
+<li><p><strong>Proses Akuisisi Data (Data Generation Process):</strong>
+Berdasarkan jurnal referensi, data ini diperoleh melalui tahapan berikut:</p>
+<ol class="arabic simple">
+<li><p><strong>Subjek:</strong> Data dikumpulkan dari <strong>44 penulis</strong> yang berbeda.</p></li>
+<li><p><strong>Perangkat:</strong> Penulis diminta menulis angka 0-9 menggunakan tablet sensitif tekanan (<strong>Wacom PL-100V</strong>).</p></li>
+<li><p><strong>Raw Input:</strong> Saat pena bergerak di atas tablet, perangkat merekam koordinat <span class="math notranslate nohighlight">\((x_t, y_t)\)</span> dengan frekuensi sampling 100 milidetik.</p></li>
+<li><p><strong>Masalah Awal:</strong> Karena kecepatan menulis setiap orang berbeda, jumlah titik koordinat yang terekam bervariasi (variable length).</p></li>
+</ol>
+</li>
+<li><p><strong>Transformasi ke Time Series (Feature Extraction):</strong>
+Agar dapat diproses oleh model, data mentah diubah menjadi format baku melalui langkah-langkah yang dilakukan oleh peneliti asli:</p>
+<ol class="arabic simple">
+<li><p><strong>Normalisasi:</strong> Seluruh koordinat dinormalisasi agar masuk ke dalam kotak ukuran <strong>100x100 pixel</strong>. Ini agar ukuran tulisan (besar/kecil) tidak mempengaruhi hasil.</p></li>
+<li><p><strong>Spatial Resampling :</strong> Data deret waktu mentah di-resampling bukan berdasarkan waktu, melainkan berdasarkan <strong>jarak spasial</strong>.</p></li>
+<li><p><strong>Fixed Length:</strong> Algoritma memilih <strong>8 titik ekuidistan</strong> (berjarak sama) di sepanjang alur goresan pena.</p></li>
+<li><p><strong>Hasil Akhir:</strong> Setiap sampel data terdiri dari urutan <strong>8 pasang koordinat (x,y)</strong>. Inilah yang membuat data ini disebut sebagai <em>Multivariate Time Series</em> dengan panjang series 8.</p></li>
+</ol>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sktime.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_from_tsfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sktime.classification.distance_based</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsTimeSeriesClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># 1. BUSINESS &amp; DATA UNDERSTANDING</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 1. LOADING DATA ---&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load Data Asli (Original Split)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_from_tsfile</span><span class="p">(</span><span class="s2">&quot;PenDigits_TRAIN.ts&quot;</span><span class="p">)</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_from_tsfile</span><span class="p">(</span><span class="s2">&quot;PenDigits_TEST.ts&quot;</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan Dataset dalam bentuk Tabel (DataFrame)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[INFO] Menampilkan 5 sampel pertama dari Data Training:&quot;</span><span class="p">)</span>
+<span class="c1"># Kita konversi sedikit agar terlihat rapi di output notebook</span>
+<span class="n">display</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dimensi X_train: </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi X_test : </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- 1. LOADING DATA ---
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[INFO] Menampilkan 5 sampel pertama dari Data Training:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dim_0</th>
+      <th>dim_1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0     47.0
+1     27.0
+2     57.0
+3     26.0
+4 ...</td>
+      <td>0    100.0
+1     81.0
+2     37.0
+3      0.0
+4 ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0      0.0
+1     27.0
+2     42.0
+3     29.0
+4 ...</td>
+      <td>0     89.0
+1    100.0
+2     75.0
+3     45.0
+4 ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0      0.0
+1     31.0
+2     72.0
+3    100.0
+4 ...</td>
+      <td>0     57.0
+1     68.0
+2     90.0
+3    100.0
+4 ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0      0.0
+1      7.0
+2      5.0
+3     19.0
+4 ...</td>
+      <td>0    100.0
+1     92.0
+2     68.0
+3     45.0
+4 ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0      0.0
+1     49.0
+2    100.0
+3     81.0
+4 ...</td>
+      <td>0     67.0
+1     83.0
+2    100.0
+3     80.0
+4 ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensi X_train: (7494, 2)
+Dimensi X_test : (3498, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># =============================================#</span>
+<span class="c1"># Visualisasi Data &amp; Analisis Distribusi Kelas #</span>
+<span class="c1"># =============================================#</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- ANALISIS MENDALAM: BENTUK RATA-RATA (MEAN SHAPE) ---&quot;</span><span class="p">)</span>
+
+<span class="n">unique_labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Bentuk Rata-Rata (Mean Shape) dari Seluruh Data Training&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">):</span>
+    <span class="c1"># Ambil semua data milik kelas tersebut</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Hitung rata-rata koordinat X dan Y untuk setiap titik (1 s/d 8)</span>
+    <span class="c1"># X_train.iloc[indices, 0] adalah kumpulan series X</span>
+    <span class="c1"># Kita tumpuk (stack) lalu hitung mean axis-nya</span>
+    
+    <span class="n">all_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">all_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    
+    <span class="n">mean_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">mean_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="c1"># Plot Mean Shape (Garis Tebal Merah)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">mean_y</span><span class="p">,</span> <span class="s1">&#39;r-o&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean Shape&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Plot beberapa sampel tipis di belakangnya sebagai bayangan (opsional, biar keren)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">))):</span> <span class="c1"># Ambil 15 sampel acak</span>
+        <span class="n">sample_x</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">sample_y</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span> <span class="c1"># Transparan</span>
+        
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean Angka: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+
+<span class="c1"># B. Visualisasi Perbandingan Data Train vs Test (Bar Chart)</span>
+<span class="n">train_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">test_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">total_count</span> <span class="o">=</span> <span class="n">train_count</span> <span class="o">+</span> <span class="n">test_count</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">&#39;Training Set&#39;</span><span class="p">,</span> <span class="s1">&#39;Testing Set&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">train_count</span><span class="p">,</span> <span class="n">test_count</span><span class="p">],</span> 
+               <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;#3498db&#39;</span><span class="p">,</span> <span class="s1">&#39;#e74c3c&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distribusi Data Split (Total: </span><span class="si">{</span><span class="n">total_count</span><span class="si">}</span><span class="s1"> Sampel)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Sampel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Menambahkan label persentase di atas bar</span>
+<span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">bars</span><span class="p">:</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">/</span> <span class="n">total_count</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">100</span><span class="p">,</span> 
+             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span> 
+             <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- ANALISIS MENDALAM: BENTUK RATA-RATA (MEAN SHAPE) ---
+</pre></div>
+</div>
+<img alt="_images/c7dc12fff04027680e37001797d69d07eb95774d3e8ec08375f340e6d8db774a.png" src="_images/c7dc12fff04027680e37001797d69d07eb95774d3e8ec08375f340e6d8db774a.png" />
+<img alt="_images/05776961d1b962f765916681ec4c8890f9fb7be48f043e1dee1bd06b41841e09.png" src="_images/05776961d1b962f765916681ec4c8890f9fb7be48f043e1dee1bd06b41841e09.png" />
+</div>
+</div>
+</section>
+<section id="data-preparation">
+<h2>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Pengecekan Kualitas:</strong> Memastikan tidak ada <em>missing values</em> pada dataset.</p></li>
+<li><p><strong>Validasi Format:</strong>
+Karena data sudah melalui proses <em>Spatial Resampling</em> menjadi 8 titik oleh penyedia dataset (sesuai penjelasan di Data Understanding), tugas utama di tahap ini adalah memuat data ke dalam struktur memori yang tepat.</p></li>
+<li><p><strong>Pembagian Data (Splitting):</strong>
+Menggunakan <strong>Original Split</strong> bawaan dataset (~70:30):</p>
+<ul>
+<li><p><strong>Training Set:</strong> Menggunakan data dari 30 penulis pertama (7.494 sampel).</p></li>
+<li><p><strong>Testing Set:</strong> Menggunakan data dari 14 penulis sisanya (3.498 sampel).</p></li>
+<li><p><em>Alasan:</em> Pembagian ini disebut <strong>“Writer-Independent”</strong>. Model dilatih pada tulisan sekelompok orang, dan diuji pada tulisan orang yang <em>benar-benar baru</em>. Ini mensimulasikan skenario dunia nyata di mana aplikasi akan digunakan oleh user asing yang tidak ikut serta dalam pelatihan model.—</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># 3. DATA PREPARATION</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 3. DATA PREPARATION &amp; QUALITY CHECK ---&quot;</span><span class="p">)</span>
+
+<span class="c1"># A. Cek Missing Value</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[CHECK 1] Memeriksa Missing Values...&quot;</span><span class="p">)</span>
+<span class="n">missing_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">missing_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">missing_train</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">missing_test</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Tidak ditemukan Missing Values (Clean).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️ Ditemukan Missing Values! Train: </span><span class="si">{</span><span class="n">missing_train</span><span class="si">}</span><span class="s2">, Test: </span><span class="si">{</span><span class="n">missing_test</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># B. Cek Normalisasi (Range Data) &amp; Outlier Sederhana</span>
+<span class="c1"># PenDigits biasanya dinormalisasi dalam range 0-100 atau 0-1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[CHECK 2] Memeriksa Range Data (Normalisasi)...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mengambil semua nilai dari sampel pertama untuk cek range</span>
+<span class="n">sample_data</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># Dimensi 0</span>
+<span class="n">min_val</span> <span class="o">=</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">max_val</span> <span class="o">=</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Range Nilai Koordinat (Sampel 1): Min=</span><span class="si">{</span><span class="n">min_val</span><span class="si">}</span><span class="s2">, Max=</span><span class="si">{</span><span class="n">max_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">min_val</span> <span class="ow">and</span> <span class="n">max_val</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Data tampak sudah dinormalisasi (Range 0-100).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ℹ️ Data memiliki range di luar 0-100 (Perlu diperhatikan saat deployment).&quot;</span><span class="p">)</span>
+
+<span class="c1"># C. Validasi Panjang Series (PENTING untuk Deployment)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[CHECK 3] Memeriksa Konsistensi Panjang Series...&quot;</span><span class="p">)</span>
+<span class="n">series_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Panjang Series per Sampel: </span><span class="si">{</span><span class="n">series_len</span><span class="si">}</span><span class="s2"> titik.&quot;</span><span class="p">)</span>
+<span class="c1"># Kita simpan info ini karena nanti aplikasi Streamlit HARUS mengubah input user jadi 8 titik juga.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- 3. DATA PREPARATION &amp; QUALITY CHECK ---
+
+[CHECK 1] Memeriksa Missing Values...
+✅ Tidak ditemukan Missing Values (Clean).
+
+[CHECK 2] Memeriksa Range Data (Normalisasi)...
+Range Nilai Koordinat (Sampel 1): Min=0.0, Max=100.0
+✅ Data tampak sudah dinormalisasi (Range 0-100).
+
+[CHECK 3] Memeriksa Konsistensi Panjang Series...
+Panjang Series per Sampel: 8 titik.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modeling">
+<h2>4. Modeling<a class="headerlink" href="#modeling" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Algoritma:</strong> <strong>K-Nearest Neighbors (KNN)</strong> dengan <strong>Dynamic Time Warping (DTW)</strong>.</p></li>
+<li><p><strong>Konfigurasi:</strong></p>
+<ul>
+<li><p>n_neighbors = 1 (Nearest Neighbor).</p></li>
+<li><p>metric = dtw (Mengukur jarak berdasarkan kemiripan bentuk pola, bukan sekadar jarak Euclidean, sehingga tahan terhadap variasi kecepatan penulisan).</p></li>
+</ul>
+</li>
+<li><p><strong>Proses:</strong> Model dilatih menggunakan data Training PenDigits_TRAIN.ts.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># 4. MODELING</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 4. MODELING (KNN with DTW) ---&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sedang melatih model&quot;</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># Inisialisasi Model</span>
+<span class="c1"># n_neighbors=1 dan distance=&#39;dtw&#39; adalah setting terbaik untuk PenDigits</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KNeighborsTimeSeriesClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s2">&quot;dtw&quot;</span><span class="p">)</span>
+
+<span class="c1"># Training</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Training Selesai! Waktu komputasi: </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> detik.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- 4. MODELING (KNN with DTW) ---
+Sedang melatih model
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Training Selesai! Waktu komputasi: 1.85 detik.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation">
+<h2>5. Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Metode:</strong> Prediksi dilakukan terhadap PenDigits_TEST.ts.</p></li>
+<li><p><strong>Metrik Evaluasi:</strong></p>
+<ul>
+<li><p><strong>Akurasi:</strong> Persentase ketepatan prediksi keseluruhan.</p></li>
+<li><p><strong>Confusion Matrix:</strong> Menganalisis detail kesalahan prediksi antar kelas (misal: angka mana yang sering tertukar).</p></li>
+<li><p><strong>Classification Report:</strong> Melihat nilai Precision, Recall, dan F1-Score per angka.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># 5. EVALUATION</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 5. EVALUATION ---&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sedang melakukan prediksi data test...&quot;</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># A. Akurasi</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== AKURASI MODEL: </span><span class="si">{</span><span class="n">accuracy</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># B. Classification Report (Precision, Recall, F1-Score)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Detail Laporan Klasifikasi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># C. Confusion Matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> 
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix (Prediksi vs Aktual)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Prediksi Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Label Sebenarnya&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- 5. EVALUATION ---
+Sedang melakukan prediksi data test...
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 5. EVALUATION ---&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sedang melakukan prediksi data test...&quot;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># A. Akurasi</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python311\Lib\site-packages\sktime\classification\base.py:285,</span> in <span class="ni">BaseClassifier.predict</span><span class="nt">(self, X)</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_class_y_pred</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">284</span> <span class="c1"># call internal _predict, convert output</span>
+<span class="ne">--&gt; </span><span class="mi">285</span> <span class="n">y_pred_inner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_output_y</span><span class="p">(</span><span class="n">y_pred_inner</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span> <span class="k">return</span> <span class="n">y_pred</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python311\Lib\site-packages\sktime\classification\distance_based\_time_series_neighbors.py:298,</span> in <span class="ni">KNeighborsTimeSeriesClassifier._predict</span><span class="nt">(self, X)</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Predict the class labels for the provided data.</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)    295     Class labels for each data sample.</span>
+<span class="g g-Whitespace">    </span><span class="mi">296</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">297</span> <span class="c1"># self._X should be the stored _X</span>
+<span class="ne">--&gt; </span><span class="mi">298</span> <span class="n">dist_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">300</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn_estimator_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">302</span> <span class="k">return</span> <span class="n">y_pred</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python311\Lib\site-packages\sktime\classification\distance_based\_time_series_neighbors.py:202,</span> in <span class="ni">KNeighborsTimeSeriesClassifier._distance</span><span class="nt">(self, X, X2)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="n">distance_params</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">201</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">202</span>     <span class="k">return</span> <span class="n">pairwise_distance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="o">**</span><span class="n">distance_params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span>     <span class="k">if</span> <span class="n">X2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python311\Lib\site-packages\sktime\distances\_distance.py:2150,</span> in <span class="ni">pairwise_distance</span><span class="nt">(x, y, metric, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2146</span> <span class="n">symmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2147</span> <span class="n">_metric_callable</span> <span class="o">=</span> <span class="n">_resolve_metric_to_factory</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2148</span>     <span class="n">metric</span><span class="p">,</span> <span class="n">_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_METRIC_INFOS</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">   </span><span class="mi">2149</span> <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2150</span> <span class="k">return</span> <span class="n">_compute_pairwise_distance</span><span class="p">(</span><span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">,</span> <span class="n">symmetric</span><span class="p">,</span> <span class="n">_metric_callable</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python311\Lib\site-packages\sktime\distances\_numba_utils.py:87,</span> in <span class="ni">_compute_pairwise_distance</span><span class="nt">(x, y, symmetric, distance_callable)</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span>             <span class="n">pairwise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">pairwise_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span>         <span class="k">else</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">87</span>             <span class="n">pairwise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance_callable</span><span class="p">(</span><span class="n">curr_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span> <span class="k">return</span> <span class="n">pairwise_matrix</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="deployment">
+<h2>6. Deployment<a class="headerlink" href="#deployment" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Platform:</strong> Python Web App menggunakan <strong>Streamlit</strong>.</p></li>
+<li><p><strong>Fitur:</strong></p>
+<ul>
+<li><p>Integrasi <strong>Canvas</strong> untuk input gambar manual.</p></li>
+<li><p><strong>Preprocessing Backend</strong> yang mengubah gambar user menjadi format Time Series 8-titik (sama seperti data latih).</p></li>
+<li><p>Menggunakan model tersimpan (.pkl) untuk inferensi <em>real-time</em>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># 6. DEPLOYMENT PREPARATION</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- 6. SAVE MODEL ---&quot;</span><span class="p">)</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;pendigits_model_final.pkl&quot;</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Model berhasil disimpan ke file: &#39;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File ini siap digunakan untuk Backend Aplikasi Streamlit.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- 6. SAVE MODEL ---
+✅ Model berhasil disimpan ke file: &#39;pendigits_model_final.pkl&#39;
+File ini siap digunakan untuk Backend Aplikasi Streamlit.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="projectuastimeseries.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Klasifikasi Profil Beban Listrik Harian (Italy Power Demand) Menggunakan Random Forest</strong></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#business-understanding">1. Business Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">3. Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling">4. Modeling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">5. Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment">6. Deployment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Zulfikri Assiddiqie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

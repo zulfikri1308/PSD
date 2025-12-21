@@ -34,7 +34,10 @@ chapters:
     title: Time Series Audio Multi Label
 
   - file: projectuastimeseries
-    title: Project UAS (Italy Power Demand)
+    title: Project 1 UAS (Italy Power Demand)
+
+  - file: projectuaspena
+    title: Project 2 UAS (Pen-Digits)
 
   # - file: imbalanced 
   #   title: imbalanced data (smote)
